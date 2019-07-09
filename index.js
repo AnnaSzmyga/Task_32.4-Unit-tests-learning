@@ -1,30 +1,16 @@
-const formatDate = (timeInSeconds) => {
-  const seconds = timeInSeconds % 60;
-  const minutes = (timeInSeconds - seconds) / 60;
-  const hours = (minutes - (minutes % 60)) / 60;
+const formatDate = (basicTime) => {
+  const seconds = basicTime % 60;
+  const minutes = Math.floor(basicTime / 60) % 60;
+  const hours = Math.floor(basicTime / 3600);
 
-  if (timeInSeconds === undefined) {
-    return `0s`;
-  }
-  else if ((timeInSeconds > 60) && (timeInSeconds < 3600) && (seconds !== 0)) {
-    return `${minutes}m ${seconds}s`;
-  }
-  else if ((timeInSeconds > 60) && (timeInSeconds < 3600) && (seconds === 0)) {
-    return `${minutes}m`;
-  }
-  else if ((timeInSeconds > 3600) && ((minutes % 60) !== 0) && (seconds !== 0)) {
-    return `${hours}h ${minutes % 60}m ${seconds}s`;
-  }
-  else if ((timeInSeconds > 3600) && ((minutes % 60) !== 0) && (seconds === 0)) {
-    return `${hours}h ${minutes % 60}m`;
-  }
-  else if ((timeInSeconds > 3600) && ((minutes % 60) === 0) && (seconds === 0)) {
-    return `${hours}h`;
-  }
-  else if ((timeInSeconds > 3600) && ((minutes % 60) === 0) && (seconds !== 0)) {
-    return `${hours}h ${seconds}s`;
-  }
-    return `${timeInSeconds}s`;
-  }
+  let secondsResult = (seconds === 0) ? '' : `${seconds}s`;
+  let minutesResult = (minutes === 0) ? '' : `${minutes}m `;
+  let hoursResult = (hours === 0) ? '' : `${hours}h `;
+
+  let result = (basicTime === undefined || basicTime === 0) ? `0s` : `${hoursResult}${minutesResult}${secondsResult}`;
+
+  return result.trim();
+};
+
 
 module.exports = formatDate;
